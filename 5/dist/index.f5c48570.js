@@ -27458,8 +27458,9 @@ const Body = ()=>{
     // const searchText = "tc";
     // React usedes one way date binding
     // hooks are just a normal function and it's take a function like getters and setters
-    const [searchText, setSearchText] = (0, _react.useState)("");
-    const [restaurants, setRestaurants] = (0, _react.useState)((0, _constants.restaurantList));
+    // Initialize state variables using the 'useState' hook
+    const [searchText, setSearchText] = (0, _react.useState)(""); // searchText for input
+    const [restaurants, setRestaurants] = (0, _react.useState)((0, _constants.restaurantList)); // restaurant data
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27473,43 +27474,45 @@ const Body = ()=>{
                         onChange: (e)=>setSearchText(e.target.value)
                     }, void 0, false, {
                         fileName: "src/components/Body.js",
-                        lineNumber: 22,
+                        lineNumber: 25,
                         columnNumber: 13
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
                         className: "search-btn",
                         onClick: ()=>{
-                            // filter the data
+                            // When the search button is clicked:
+                            // 1. Filter the restaurant data based on the searchText
                             const data = filterData(searchText, restaurants);
-                            // update the state of restaurants list
+                            // 2. Update the state of the 'restaurants' list with the filtered data
                             setRestaurants(data);
                         },
                         children: "Search"
                     }, void 0, false, {
                         fileName: "src/components/Body.js",
-                        lineNumber: 29,
+                        lineNumber: 32,
                         columnNumber: 13
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/components/Body.js",
-                lineNumber: 21,
+                lineNumber: 24,
                 columnNumber: 11
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                 className: "restaurant-list",
                 children: restaurants.map((restaurant)=>{
-                    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _restaurantCardDefault.default), {
+                    return(// Render each restaurant as a 'RestaurantCard' component
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _restaurantCardDefault.default), {
                         ...restaurant.data
                     }, restaurant.data.id, false, {
                         fileName: "src/components/Body.js",
-                        lineNumber: 44,
+                        lineNumber: 51,
                         columnNumber: 17
-                    }, undefined);
+                    }, undefined));
                 })
             }, void 0, false, {
                 fileName: "src/components/Body.js",
-                lineNumber: 41,
+                lineNumber: 47,
                 columnNumber: 11
             }, undefined)
         ]

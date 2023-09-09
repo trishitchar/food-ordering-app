@@ -4,7 +4,7 @@
   "description": "tc",
   "scripts": {
     "start": "parcel index.html",
-    "buile": " build parcel index.html",
+    "build": " build parcel index.html",
     "test": "jest"
   },
   "author": "tc",
