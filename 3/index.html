@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2</title>
+</head>
+<body>
+    <!-- Transitive dependency = depency also can rely upon another dependency -->
+    <!-- bundlers : vite, parcel, webpack -->
+    <!-- packege.json -> npm init -> (-y = skip some option) maneges all the packeges -->
+    <!-- npm i/install -D parcel-->
+    <!-- (-D, --save-dev) = dev dependency : we need parcel in our development environment 
+        all the packeges that out project needs = create node module + packege lock--> 
+    <!-- ^ (Caret): minor version update, ~ (Tilde): major update -->
+    <!-- npm install react && npm install react-dom  -  -->
+    <!-- npx parcel <entry point> npx = execute using npm -->
+    <!-- import React from "react"; import  ReactDOM  from "react-dom/client"; 
+        type module js -> <script type="module" src="script.js"></script>-->
+    
+    <div id="root">not rendered</div>
+    
+    <script type="module" src="script.js"></script>
+
+</body>
+</html>

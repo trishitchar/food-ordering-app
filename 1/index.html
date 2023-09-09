@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1</title>
+</head>
+<body>
+    <div id="header"><h1>header</h1></div>
+    <div id="root"> Not render
+        <h1 id="title">Hello</h1>
+        <h1 id="title">Hello</h1>
+        <h1 id="title">Hello</h1>
+        <h1 id="title">Hello</h1>
+        <h1 id="title">Hello</h1>
+        <h1 id="title">Hello</h1>
+    </div>
+    <div id="footer"><h1>footer</h1></div>
+    <!-- <script>
+        const heading = document.createElement("h1") 
+        heading.innerHTML = "Tchar"
+        const root = document.getElementById("root")
+        root.appendChild(heading) 
+    </script> -->
+
+        
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script> 
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    
+    
+    
+    <script>
+        const heading1 = React.createElement("h1", {
+            id:"title",  
+        }, "Tchar Heading 1");
+        
+        const heading2 = React.createElement("h2", {
+            id:"title2", 
+        }, "Tchar Heading 2");
+
+        const adding = React.createElement("div",{
+            id:"add",
+        }, [heading1, heading2]);
+        
+        const container = ReactDOM.createRoot(document.getElementById("root"));
+        container.render(adding);
+
+
+    </script>
+
+    
+    
+</body>
+</html>
