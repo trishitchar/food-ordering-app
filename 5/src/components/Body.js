@@ -30,7 +30,7 @@ const Body = () => {
     // handle the error using try... catch
     try {
       // Fetch data from the Swiggy API
-      const response = await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=30.2965552&lng=77.99659609999999&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING");
+      const response = await fetch("https://corsproxy.io/?https://www.swiggy.com/dapi/restaurants/list/v5?lat=30.2965552&lng=77.99659609999999&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING");
       const json = await response.json();
 
       // initialize checkJsonData() function to check Swiggy Restaurant data
