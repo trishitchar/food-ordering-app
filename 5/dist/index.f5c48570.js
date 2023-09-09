@@ -27444,38 +27444,68 @@ try {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
-var _constants = require("../constants");
 var _restaurantCard = require("./RestaurantCard");
 var _restaurantCardDefault = parcelHelpers.interopDefault(_restaurantCard);
-var _react = require("react");
+var _react = require("react"); // Import React hooks
 var _s = $RefreshSig$();
+// Filter the restaurant data according to the input type
 function filterData(searchText, restaurants) {
+    // Filter the 'restaurants' array based on the 'searchText'
     const resFilterData = restaurants.filter((restaurant)=>restaurant?.info?.name.toLowerCase().includes(searchText.toLowerCase()));
     return resFilterData;
 }
+// Body Component for body section: It contain all restaurant cards
 const Body = ()=>{
     _s();
-    // const searchText = "tc";
-    // React usedes one way date binding
-    // hooks are just a normal function and it's take a function like getters and setters
-    // Initialize state variables using the 'useState' hook
-    const [searchText, setSearchText] = (0, _react.useState)(""); // searchText for input
-    const [restaurants, setRestaurants] = (0, _react.useState)((0, _constants.restaurantList)); // restaurant data
-    //call back function + dependency array 
+    // useState: To create a state variable, searchText, allRestaurants and filteredRestaurants is local state variable
+    const [searchText, setSearchText] = (0, _react.useState)("");
+    const [allRestaurants, setAllRestaurants] = (0, _react.useState)([]);
+    const [filteredRestaurants, setFilteredRestaurants] = (0, _react.useState)([]);
+    const [errorMessage, setErrorMessage] = (0, _react.useState)("");
+    // use useEffect for one-time API call to get restaurant data using an empty dependency array
     (0, _react.useEffect)(()=>{
-        //console.log("rendering");
-        //if it not dependeing upon anything then it'll only call automatically by once - empty dependency array [];
-        //API call
         getRestaurants();
     }, []);
+    // Async function 'getRestaurants' to fetch Swiggy API data
     async function getRestaurants() {
-        const data = await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=30.2965552&lng=77.99659609999999&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING");
-        //convert into an readable object
-        const json = await data.json();
-        console.log(json);
-        //optional chaining
-        setRestaurants(json?.data?.cards[0]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+        // handle the error using try... catch
+        try {
+            // Fetch data from the Swiggy API
+            const response = await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=30.2965552&lng=77.99659609999999&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING");
+            const json = await response.json();
+            // initialize checkJsonData() function to check Swiggy Restaurant data
+            async function checkJsonData(jsonData) {
+                for(let i = 0; i < jsonData?.data?.cards.length; i++){
+                    // initialize checkData for Swiggy Restaurant data
+                    let checkData = json?.data?.cards[i]?.card?.card?.gridElements?.infoWithStyle?.restaurants;
+                    // if checkData is not undefined then return it
+                    if (checkData !== undefined) return checkData;
+                }
+            }
+            // call the checkJsonData() function which return Swiggy Restaurant data
+            const resData = await checkJsonData(json);
+            // update the state variable restaurants with Swiggy API data
+            setAllRestaurants(resData);
+            setFilteredRestaurants(resData);
+        } catch (error) {
+            console.log(error);
+        }
     }
+    // use searchData function and set condition if data is empty show error message
+    // Function 'searchData' filters data based on the 'searchText' input
+    const searchData = (searchText, restaurants)=>{
+        if (searchText !== "") {
+            const filteredData = filterData(searchText, restaurants);
+            setFilteredRestaurants(filteredData);
+            setErrorMessage("");
+            if (filteredData?.length === 0) setErrorMessage("No matches restaurant found");
+        } else {
+            setErrorMessage("");
+            setFilteredRestaurants(restaurants);
+        }
+    };
+    // if allRestaurants is empty don't render restaurants cards
+    if (!allRestaurants) return null;
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27486,54 +27516,59 @@ const Body = ()=>{
                         className: "search-input",
                         placeholder: "Search a restaurant you want...",
                         value: searchText,
+                        // update the state variable searchText when we typing in input box
                         onChange: (e)=>setSearchText(e.target.value)
                     }, void 0, false, {
                         fileName: "src/components/Body.js",
-                        lineNumber: 43,
-                        columnNumber: 13
+                        lineNumber: 83,
+                        columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
                         className: "search-btn",
                         onClick: ()=>{
-                            // When the search button is clicked:
-                            // 1. Filter the restaurant data based on the searchText
-                            const data = filterData(searchText, restaurants);
-                            // 2. Update the state of the 'restaurants' list with the filtered data
-                            setRestaurants(data);
+                            // user click on button searchData function is called
+                            searchData(searchText, allRestaurants);
                         },
                         children: "Search"
                     }, void 0, false, {
                         fileName: "src/components/Body.js",
-                        lineNumber: 50,
-                        columnNumber: 13
+                        lineNumber: 91,
+                        columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/components/Body.js",
-                lineNumber: 42,
-                columnNumber: 11
+                lineNumber: 82,
+                columnNumber: 7
+            }, undefined),
+            errorMessage && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "error-container",
+                children: errorMessage
+            }, void 0, false, {
+                fileName: "src/components/Body.js",
+                lineNumber: 101,
+                columnNumber: 24
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                 className: "restaurant-list",
-                children: restaurants.map((restaurant)=>{
-                    return(// Render each restaurant as a 'RestaurantCard' component
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _restaurantCardDefault.default), {
-                        ...restaurant.data
-                    }, restaurant.data.id, false, {
+                children: filteredRestaurants.map((restaurant)=>{
+                    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _restaurantCardDefault.default), {
+                        ...restaurant?.info
+                    }, restaurant?.info?.id, false, {
                         fileName: "src/components/Body.js",
-                        lineNumber: 69,
-                        columnNumber: 17
-                    }, undefined));
+                        lineNumber: 109,
+                        columnNumber: 15
+                    }, undefined);
                 })
             }, void 0, false, {
                 fileName: "src/components/Body.js",
-                lineNumber: 65,
-                columnNumber: 11
+                lineNumber: 105,
+                columnNumber: 9
             }, undefined)
         ]
     }, void 0, true);
 };
-_s(Body, "lGLViHseELHs0CF534XgCT//ZTc=");
+_s(Body, "+HhlMwbQ+xUSNXFpTBqVZVGNDfk=");
 _c = Body;
 exports.default = Body;
 var _c;
@@ -27544,7 +27579,7 @@ $RefreshReg$(_c, "Body");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","./RestaurantCard":"bMboU","../constants":"3huJa"}],"bMboU":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","./RestaurantCard":"bMboU"}],"bMboU":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$ffb1 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
