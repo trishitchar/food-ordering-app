@@ -15,7 +15,7 @@ const Title = () => (
             <Title/>
             <div className='nav-items'>
                 <ul>
-                    <li>Home</li>
+                    <li>Homee</li>
                     <li>About Us</li>
                     <li>Contact</li>
                     <li>Cart</li>

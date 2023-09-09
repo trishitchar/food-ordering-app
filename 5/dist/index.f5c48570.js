@@ -27209,7 +27209,7 @@ const Header = ()=>{
                 children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("ul", {
                     children: [
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
-                            children: "Home"
+                            children: "Homee"
                         }, void 0, false, {
                             fileName: "src/components/Header.js",
                             lineNumber: 18,
