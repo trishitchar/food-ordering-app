@@ -1,14 +1,14 @@
 //props - properties
 import { restaurantList } from "../constants";
 import RestaurantCard from "./RestaurantCard";
-import { useState } from "react";
+import { useState , useEffect} from "react";
 
 function filterData(searchText, restaurants) {
-    const filterData = restaurants.filter((restaurant) =>
-      restaurant?.data?.name.toLowerCase().includes(searchText.toLowerCase())
-    );
-    return filterData;
-  }
+  const resFilterData = restaurants.filter((restaurant) =>
+    restaurant?.info?.name.toLowerCase().includes(searchText.toLowerCase())
+  );
+  return resFilterData;
+}
 
 
 const Body = () => {
@@ -18,6 +18,24 @@ const Body = () => {
     // Initialize state variables using the 'useState' hook
     const [searchText, setSearchText] = useState("");// searchText for input
     const [restaurants, setRestaurants] = useState(restaurantList);// restaurant data
+    
+    //call back function + dependency array 
+    useEffect(() =>{
+      //console.log("rendering");
+      //if it not dependeing upon anything then it'll only call automatically by once - empty dependency array [];
+      //API call
+      getRestaurants();
+    },[]);
+
+    async function getRestaurants(){
+      const data = await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=30.2965552&lng=77.99659609999999&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING")
+      //convert into an readable object
+      const json = await data.json();
+      console.log(json);
+      //optional chaining
+      setRestaurants(json?.data?.cards[0]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+    }
+
     return (
         <>
           {/* Search input and button */} 
